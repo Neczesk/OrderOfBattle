@@ -4,10 +4,9 @@ kivy.require('2.1.0')
 from kivy.app import App
 from kivy.uix.label import Label
 
-class MyApp(App):
-	def build(self):
-		return Label(text= 'Hello world')
+class OrderOfBattleApp(App):
+	pass
 
 if __name__== '__main__':
-	app = MyApp()
+	app = OrderOfBattleApp()
 	app.run()
