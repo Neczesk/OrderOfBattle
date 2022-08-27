@@ -2,6 +2,14 @@ import React, {useState, useEffect} from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+
+import Typography from '@mui/material/Typography';
+
+
 function App() {
   const [currentTime, setCurrentTime] = useState(0);
 
@@ -13,6 +21,7 @@ function App() {
 
   
   return (
+
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
@@ -27,7 +36,7 @@ function App() {
         >
           Learn React
         </a>
-        <p>The current time is {currentTime}.</p>
+        <Typography variant="h1">The time is {currentTime}</Typography>
       </header>
     </div>
   );
