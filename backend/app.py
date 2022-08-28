@@ -12,9 +12,10 @@ conn = dbconnection.create_connection(path)
 
 @app.route("/time")
 def get_current_time():
-	return {'time': time.time()}
+    return {'time': time.time()}
+
 
 @app.route("/getrulesets")
 def get_available_rulesets():
-	rulesets_list = rulesetdao.get_all_rulesets(conn)
-	return rulesets_list
+    rulesets_list = rulesetdao.get_all_rulesets(conn)
+    return rulesets_list
