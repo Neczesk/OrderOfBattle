@@ -1,4 +1,6 @@
+import jsonpickle
 
+import datetime
 
 class Version:
     def __init__(self, major: int, minor: int, release: int, text="NONE"):
@@ -22,18 +24,21 @@ class Version:
             + "." + str(self.release)
         return out
 
+    def toJson(self):
+        return jsonpickle.encode(self)
+
 
 class Ruleset:
-    def __init__(self, name: str, id: int, version: Version, desc: str):
+    def __init__(self, name: str, ruleset_id: int, version: Version, desc: str, creator: str, created: datetime.datetime, modifier: str, modified: datetime.datetime):
         self.name = name
+        self.id = ruleset_id
         self.version = version
+        self.description = desc
+        self.creator = creator
+        self.created_datetime = created
+        self.last_modifier = modifier
+        self.last_modified = modified
 
 
-if __name__ == "__main__":
-
-    throw = Ruleset("Flames of War (Late War)", 1, Version(3, 2, 1), "The game of world war 2 1944-1945")
-
-    try:
-        r = Ruleset("Flames of War (Mid War)", 2, Version(4,2,1), "The game of world war 2 1942-1943")
-    except:
-        print("Failed to create ruleset")
+    def toJson(self):
+        return jsonpickle.encode(self)

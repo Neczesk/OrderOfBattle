@@ -4,20 +4,22 @@ from . import ruleset
 
 def get_ruleset(conn: sqlite3.Connection, id:int) -> ruleset.Ruleset:
 	cur = conn.cursor()
-	ruleset_query = "SELECT ruleset_name, ruleset_id, ruleset_version, ruleset_desc FROM ruleset WHERE ruleset_id = ?"
+	conn.row_factory = sqlite3.Row
+	ruleset_query = "SELECT ruleset_name, ruleset_id, ruleset_version, ruleset_desc, ruleset_creator, ruleset_created, ruleset_modified, ruleset_last_modifier FROM ruleset WHERE ruleset_id = ?"
 	results = cur.execute(ruleset_query, [id])
 	rulesets = results.fetchall()
 	out = rulesets[0]
-	out = ruleset.Ruleset(out[0], out[1], out[2], out[3])
+	out = ruleset.Ruleset(name = out['ruleset_name'], version = out['ruleset_version'], ruleset_id = out['ruleset_id'], desc = out['ruleset_desc'], created = out['ruleset_created'], modified = out['ruleset_modified'], creator = out['ruleset_creator'], modifier = out['ruleset_last_modifier'] )
 	return out
 
 def get_all_rulesets(conn: sqlite3.Connection) -> list:
 	cur = conn.cursor()
-	rulesets_query = "SELECT ruleset_name, ruleset_id, ruleset_version, ruleset_desc FROM ruleset"
+	conn.row_factory = sqlite3.Row
+	rulesets_query = "SELECT ruleset_name, ruleset_id, ruleset_version, ruleset_desc, ruleset_creator, ruleset_created, ruleset_modified, ruleset_last_modifier FROM ruleset"
 	results = cur.execute(rulesets_query)
 	rulesets = results.fetchall()
 	out = []
 	for item in rulesets:
-		out.append(ruleset.Ruleset(item[0], item[1], item[2], item[3]))
+		out.append(ruleset.Ruleset(name = item['ruleset_name'], version = item['ruleset_version'], ruleset_id = item['ruleset_id'], desc = item['ruleset_desc'], created = item['ruleset_created'], modified = item['ruleset_modified'], creator = item['ruleset_creator'], modifier = item['ruleset_last_modifier'] ))
 	return out
 

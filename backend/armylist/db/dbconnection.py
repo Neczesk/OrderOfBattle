@@ -7,7 +7,7 @@ def create_connection(path):
 
     try:
 
-        connection = sqlite3.connect(path)
+        connection = sqlite3.connect(path, check_same_thread=False)
 
         print("Connection to SQLite DB successful")
 

@@ -18,4 +18,4 @@ def get_current_time():
 @app.route("/getrulesets")
 def get_available_rulesets():
     rulesets_list = rulesetdao.get_all_rulesets(conn)
-    return rulesets_list
+    return [r.toJson() for r in rulesets_list]
