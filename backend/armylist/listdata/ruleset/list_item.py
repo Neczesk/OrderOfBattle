@@ -16,8 +16,11 @@ class List_Item:
 		self.relation_id = relation_id
 		self.parent = parent_id
 		self.cost = cost
-		self.min = cost
+		self.min = min
 		self.max = max
+
+	def __str__(self) -> str:
+		return self.name + ": " + self.desc + "\nChild of: " + str(self.parent) + "\nCost: " + str(self.cost) + "|Min: " + str(self.min) + "|Max: " + str(self.max)
 
 	def set_info(self, info: Item_Info):
 		self.name = info.name
@@ -30,18 +33,17 @@ class List_Item:
 
 
 def get_all_list_items(conn: sqlite3.Connection) -> dict:
-	cur = conn.cursor()
 	conn.row_factory = sqlite3.Row
 	relations_query = "SELECT relation_id, relation_item, relation_parent, relation_cost, relation_min, relation_max FROM item_relations"
-	relations = cur.execute(relations_query)
-	relations_list = relations.fetchall()
+	cursor = conn.execute(relations_query)
+	relations_list = cursor.fetchall()
 	relations_dict: dict[int, List_Item] = {}
 	for row in relations_list:
 		new_relation = List_Item(relation_id = row["relation_id"], item_id = row["relation_item"], parent_id = row["relation_parent"], cost=row["relation_cost"], min = row["relation_min"], max = row["relation_max"])
 		relations_dict[new_relation.relation_id] = new_relation
 	item_query = "SELECT item_name, item_id, item_description, item_ruleset FROM list_item"
-	items = cur.execute(item_query)
-	items_list = items.fetchall()
+	cursor = conn.execute(item_query)
+	items_list = cursor.fetchall()
 	items_dict: dict[int, Item_Info] = {}
 	for row in items_list:
 		new_item = Item_Info(name=row["item_name"], desc = row["item_description"], ruleset_id = row["item_ruleset"], item_id=row["item_id"])

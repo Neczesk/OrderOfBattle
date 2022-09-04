@@ -2,8 +2,9 @@ import unittest
 import sqlite3
 
 from db import dbconnection
-from ruleset import rulesetdao
-from ruleset import ruleset as rules
+from listdata.ruleset import rulesetdao
+from listdata.ruleset import ruleset as rules
+from listdata.ruleset import list_item
 
 class TestDatabaseMethods(unittest.TestCase):
 	def test_Connection(self):
@@ -23,5 +24,15 @@ class TestDatabaseMethods(unittest.TestCase):
 		rulesets_list = rulesetdao.get_all_rulesets(conn)
 		self.assertIsInstance(rulesets_list, list)
 		self.assertIsInstance(rulesets_list[0], rules.Ruleset)
+
+	def test_all_list_item_retrieval(self):
+		path = "../army_lists.db"
+		conn = dbconnection.create_connection(path)
+		items_dict = list_item.get_all_list_items(conn)
+		self.assertIsInstance(items_dict, dict)
+		self.assertIsInstance(items_dict[3], list_item.List_Item)
+		self.assertEqual(str(items_dict[3]), "TEST CHILD 2: TEST CHILD 2\nChild of: 10\nCost: 25|Min: 0|Max: 2")
+		for item in items_dict:
+			print(items_dict[item])
 if __name__ == '__main__':
     unittest.main()
