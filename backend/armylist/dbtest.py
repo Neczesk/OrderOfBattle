@@ -32,7 +32,11 @@ class TestDatabaseMethods(unittest.TestCase):
 		self.assertIsInstance(items_dict, dict)
 		self.assertIsInstance(items_dict[3], list_item.List_Item)
 		self.assertEqual(str(items_dict[3]), "TEST CHILD 2: TEST CHILD 2\nChild of: 10\nCost: 25|Min: 0|Max: 2")
-		for item in items_dict:
-			print(items_dict[item])
+
+	def test_items_for_ruleset_retrieval(self):
+		path = "../army_lists.db"
+		conn = dbconnection.create_connection(path)
+		items_d = list_item.get_list_items_for_ruleset(conn, 3)
+		self.assertEqual(len(items_d), 6)
 if __name__ == '__main__':
     unittest.main()
