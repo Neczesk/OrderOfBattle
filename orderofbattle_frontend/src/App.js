@@ -24,6 +24,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 import Home from "./pages/Home"
 import ViewRulesets from "./pages/ViewRulesets"
+import NewArmyList from "./pages/NewArmyList"
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -69,7 +70,7 @@ function App() {
               Lists
             </Typography>
             <List>
-              <ListItemButton>
+              <ListItemButton href="/newarmylist">
                 <ListItemText primary="Create New List"/>
                 <ListItemIcon>
                   <AddIcon/>
@@ -105,6 +106,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home/>}/>
           <Route path="/viewrulesets" element={<ViewRulesets/>}/>
+          <Route path="/newarmylist" element={<NewArmyList/>}/>
         </Routes>
       </Box>
     </Router>
