@@ -1,6 +1,11 @@
-from flask import Flask
+import datetime
+
+from flask import Flask, request
+import jsonpickle
 
 from armylist.listdata.ruleset import rulesetdao
+from armylist.listdata import army_list
+from armylist.listdata.ruleset import list_item
 from armylist.db import dbconnection
 app = Flask(__name__)
 
@@ -14,6 +19,11 @@ def get_available_rulesets():
     return [r.toJson() for r in rulesets_list]
 
 
-@app.route("/getemptyarmylist")
+@app.route("/getemptyarmylist", methods=["POST"], strict_slashes=False)
 def get_empty_armylist():
-    pass
+    ruleset_id = request.json['ruleset']
+    name = request.json['name']
+    selected_ruleset = rulesetdao.get_ruleset(conn, ruleset_id)
+    ruleset_items = list_item.get_list_items_for_ruleset(conn, ruleset_id)
+    new_list = army_list.ArmyList(datetime.datetime.today(), datetime.datetime.today(), name, selected_ruleset, ruleset_items)
+    return jsonpickle.encode(new_list)

@@ -22,9 +22,11 @@ import ViewListIcon from '@mui/icons-material/ViewList';
 import AddIcon from '@mui/icons-material/Add';
 import MenuIcon from '@mui/icons-material/Menu';
 
-import Home from "./pages/Home"
-import ViewRulesets from "./pages/ViewRulesets"
-import NewArmyList from "./pages/NewArmyList"
+import Home from "./pages/Home";
+import ViewRulesets from "./pages/ViewRulesets";
+import NewArmyList from "./pages/NewArmyList";
+import NewListDropdown from "./pages/NewListDropdown";
+import EditArmyList from "./pages/EditArmyList";
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -33,15 +35,6 @@ import '@fontsource/roboto/700.css';
 
 
 function App() {
-  const [currentTime, setCurrentTime] = useState(0);
-
-  useEffect(() => {
-    fetch('/time').then(res => res.json()).then(data => {
-      setCurrentTime(data.time);
-    });
-  }, []);
-
-  
   return (
     <Router>
       <Box sx={{ display: 'flex'}}>
@@ -70,7 +63,7 @@ function App() {
               Lists
             </Typography>
             <List>
-              <ListItemButton href="/newarmylist">
+              <ListItemButton href="/newlistdropdown">
                 <ListItemText primary="Create New List"/>
                 <ListItemIcon>
                   <AddIcon/>
@@ -107,6 +100,8 @@ function App() {
           <Route path="/" element={<Home/>}/>
           <Route path="/viewrulesets" element={<ViewRulesets/>}/>
           <Route path="/newarmylist" element={<NewArmyList/>}/>
+          <Route path="/newlistdropdown" element={<NewListDropdown/>}/>
+          <Route path="/editarmylist" element={<EditArmyList/>}/>
         </Routes>
       </Box>
     </Router>

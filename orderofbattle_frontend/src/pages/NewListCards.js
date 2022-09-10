@@ -10,11 +10,30 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Divider from '@mui/material/Divider';
+import Grid2 from '@mui/material/Unstable_Grid2'; // Grid version 2
+
 
 function NewListCards(){
   const [rulesets, setRulesets] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [errorA, setErrorA] = useState(null)
+
+  function onCreateListClicked() {
+    var requestData = {
+      "ruleset": 3,
+      "name": "test"
+    }
+
+    fetch('/getemptyarmylist', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestData),
+      })
+
+    alert("clicked");
+  }
 
   async function getRulesets() {
       try {
@@ -49,26 +68,30 @@ function NewListCards(){
       ruleset_list.push(JSON.parse(element)))
     return ( 
       ruleset_list.map((ruleset) =>
-        <Card key={ruleset.name}>
-          <CardContent>
-            <Typography variant="h5">
-              {ruleset.name}
-            </Typography>
-            <Typography>
-              Version: {ruleset.version}
-            </Typography>
-            <Divider/>
-            <Typography variant="paragraph">
-              {ruleset.description}
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button>Create List</Button>
-          </CardActions>
-        </Card>)
+        <Grid2 item xs={3}>
+          <Card key={ruleset.name}>
+            <CardContent>
+              <Typography variant="h5">
+                {ruleset.name}
+              </Typography>
+              <Typography>
+                Version: {ruleset.version}
+              </Typography>
+              <Divider/>
+              <Typography variant="paragraph">
+                {ruleset.description}
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button   
+                onClick={onCreateListClicked}>
+                Create List
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid2>)
     )
   }
-
 }
 
 export default NewListCards

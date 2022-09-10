@@ -4,6 +4,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Toolbar from '@mui/material/Toolbar';
 import Stack from '@mui/material/Stack';
+import Grid2 from '@mui/material/Unstable_Grid2'; // Grid version 2
+
 
 import NewListCards from "./NewListCards"
 
@@ -15,9 +17,9 @@ function NewArmyList() {
       <Typography paragraph>
         These are the rulesets available to make lists for.
       </Typography>
-      <Stack spacing = {1}>
+      <Grid2 container spacing = {1} sx={{ overflowY: "scroll", maxHeight: "100vh"}}>
         <NewListCards/>
-      </Stack>
+      </Grid2>
 
     </Box>
     );
