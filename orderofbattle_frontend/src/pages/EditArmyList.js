@@ -19,32 +19,9 @@ import Dialog from '@mui/material/Dialog';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
+import CircularProgress from '@mui/material/CircularProgress';
 
-function RootDialog(props) {
-	const { onClose, selRoot, open, rootName } = props;
-
-	const handleClose = () => {
-		onClose(selRoot)
-	};
-
-	const handleRootChoice = (value) => {
-		onClose(value);
-	};
-
-	return (
-		<Dialog onClose={handleClose} open={open}>
-			<DialogTitle>Choose {rootName}</DialogTitle>
-			<List sx={{ pt: 0}}>
-				<ListItem button key="2">
-					<ListItemText primary="Root 1"/>
-				</ListItem>
-				<ListItem button key="1">
-					<ListItemText primary="Root 2"/>
-				</ListItem>
-			</List>
-		</Dialog>
-	);
-}
+import RootDialog from './RootDialog';
 
 function EditArmyList(){
 	const [armyList, setArmyList] = useState(null)
@@ -101,6 +78,8 @@ function EditArmyList(){
 			)
 		}
 
+	const mainEditor = isLoading ? <CircularProgress/> : addRootScreen()
+
 	const dialog = 
 		isLoading
 			? <Typography>Loading</Typography>
@@ -109,6 +88,7 @@ function EditArmyList(){
 						selRoot={selRoot}
 						open={rootOpen}
 						rootName={armyList.rules.root_name}
+						armyList={armyList}
 					/>;
 
 	return (
@@ -145,7 +125,7 @@ function EditArmyList(){
 					</Card>
 					{isLoading
 						? <Typography>Loading</Typography>
-						: addRootScreen()}
+						: mainEditor}
 				</Stack>
 
 				
