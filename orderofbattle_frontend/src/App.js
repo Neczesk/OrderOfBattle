@@ -21,12 +21,14 @@ import List from '@mui/material/List';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import AddIcon from '@mui/icons-material/Add';
 import MenuIcon from '@mui/icons-material/Menu';
+import HomeIcon from '@mui/icons-material/Home';
 
 import Home from "./pages/Home";
 import ViewRulesets from "./pages/ViewRulesets";
 import NewArmyList from "./pages/NewArmyList";
 import NewListDropdown from "./pages/NewListDropdown";
-import EditArmyList from "./pages/EditArmyList";
+import ChooseRoot from "./pages/editor/ChooseRoot";
+import EditList from "./pages/editor/EditList";
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -41,8 +43,8 @@ function App() {
         <CssBaseline />
         <AppBar  sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} position="fixed">
           <Toolbar>
-            <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{mr:2}}>
-              <MenuIcon/>
+            <IconButton href="/" size="large" edge="start" color="inherit" aria-label="home" sx={{mr:2}}>
+              <HomeIcon/>
             </IconButton>
             <Typography variant="h6" component = "div" sx={{ flexGrow: 1 }}>
               Order of Battle
@@ -101,7 +103,8 @@ function App() {
           <Route path="/viewrulesets" element={<ViewRulesets/>}/>
           <Route path="/newarmylist" element={<NewArmyList/>}/>
           <Route path="/newlistdropdown" element={<NewListDropdown/>}/>
-          <Route path="/editarmylist" element={<EditArmyList/>}/>
+          <Route path="/editor/chooseroot" element={<ChooseRoot/>}/>
+          <Route path="/editor/editlist" element={<EditList/>}/>
         </Routes>
       </Box>
     </Router>

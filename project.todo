@@ -1,0 +1,12 @@
+Frontend:
+ ☐ Main List Item view implementation
+ ☐ Tree view implementation
+ ☐ Show categories (once implemented)
+ ✔ Implement adding children to cursors @started(22-09-13 23:33) @done (22-09-14 23:17) @lasted(23:44)
+ ☐ Map children to children view
+
+Backend:
+ ☐ Adjust list items to accept category info
+
+Database:
+ ☐ Add category column

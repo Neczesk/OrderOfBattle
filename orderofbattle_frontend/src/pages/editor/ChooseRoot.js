@@ -1,12 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import {useLocation} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Toolbar from '@mui/material/Toolbar';
-import AppBar from '@mui/material/AppBar';
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Card from '@mui/material/Card';
@@ -14,20 +12,41 @@ import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab';
-import DialogTitle from '@mui/material/DialogTitle';
-import Dialog from '@mui/material/Dialog';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import RootDialog from './RootDialog';
+import FileBar from './FileBar';
 
-function EditArmyList(){
+function ChooseRoot(){
 	const [armyList, setArmyList] = useState(null)
 	const [isLoading, setIsLoading] = useState(true)
 	const [rootOpen, setRootOpen] = useState(false)
 	const [selRoot, setSelRoot] = useState(null)
+
+	const navigate = useNavigate();
+
+	const toEditList = (selRoot) => {
+		var requestData = {
+			"listdata": armyList,
+			"root_id": selRoot
+		};
+		fetch('/addroot', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(requestData),
+		}).then((response) => {
+			if (!response.ok) {
+				throw new Error('Http Error. Status: ${response.status}');
+			}
+			return response.json()
+		}).catch(console.error)
+		.then((data) => {
+			setArmyList(data);
+			navigate('/editor/editlist', {state: {armyList: data}});		
+		})
+	};
 
 	const handleAddRoot = () => {
 		setRootOpen(true)
@@ -36,13 +55,14 @@ function EditArmyList(){
 	const handleClose = (value) => {
 		setRootOpen(false);
 		setSelRoot(value);
+		toEditList(value);
 	};
 
 	useEffect(() => {
 		var requestData = {
 			"ruleset": location.state.ruleset,
 			"name": location.state.name
-		}
+		};
 		fetch('/getemptyarmylist', {
 			method: 'POST',
 			headers: {
@@ -55,6 +75,7 @@ function EditArmyList(){
 			}
 			return response.json()
 		}).then((data) => {
+
 			setArmyList(data)
 			setIsLoading(false)
 		})
@@ -91,6 +112,9 @@ function EditArmyList(){
 						armyList={armyList}
 					/>;
 
+	const army_name = isLoading ? "" : armyList.name
+	const ruleset_name = isLoading ? "" : armyList.rules.name
+
 	return (
 		<Box sx={{
 					width: 1
@@ -98,37 +122,14 @@ function EditArmyList(){
 			<Paper>
 				<Toolbar/>
 				<Stack spacing={0.5}>
-					<Card sx={{width:1}} elevation={2}>
-						<CardContent>
-							<Typography variant="h6">
-								{isLoading
-									? ""
-									: armyList.rules.name}
-							</Typography>
-							<Typography variant="h6">
-								{isLoading
-									? ""
-									: armyList.name}
-							</Typography>
-						</CardContent>
-						<CardActions>
-							<Stack direction="row" spacing={1}>
-								<ButtonGroup variant="outlined">
-									<Button>Save List</Button>
-									<Button>Rename List</Button>
-									<Button>Share List</Button>
-									<Button>Export List</Button>
-								</ButtonGroup>
-							</Stack>
-						</CardActions>
+					{isLoading
+						? <CircularProgress/>
+						: <FileBar isLoading={isLoading} list_name={army_name} ruleset_name={ruleset_name}/>}
 					{dialog}
-					</Card>
 					{isLoading
 						? <Typography>Loading</Typography>
 						: mainEditor}
 				</Stack>
-
-				
 			</Paper>
 		</Box>
 
@@ -136,4 +137,4 @@ function EditArmyList(){
 		)
 }
 
-export default EditArmyList
+export default ChooseRoot

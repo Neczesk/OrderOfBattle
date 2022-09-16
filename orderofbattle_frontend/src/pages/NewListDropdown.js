@@ -30,7 +30,7 @@ function NewListDropdown(){
   const navigate = useNavigate();
 
   const toEditList = () => {
-  	navigate('/editarmylist', {state: {ruleset: selectedGame, name: newListName}});
+  	navigate('/editor/chooseroot', {state: {ruleset: selectedGame, name: newListName}});
   }
 
 
@@ -73,7 +73,7 @@ function NewListDropdown(){
   			ruleset_list.push(JSON.parse(element)))
   		return (
   			ruleset_list.map((ruleset) =>
-  				<option value={ruleset.id}>{ruleset.name}</option>)
+  				<option key={ruleset.id} value={ruleset.id}>{ruleset.name}</option>)
   			)
   	}
 
