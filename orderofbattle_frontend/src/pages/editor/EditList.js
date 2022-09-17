@@ -69,7 +69,11 @@ function AddChildButton(props){
 	);
 }
 
-function ChildCard(){
+function ChildCard(props){
+	const {entry_name, entry_desc, onRemoveChild} = props;
+	// const handleRemoveClick = (event, entryID) => {
+	// 	onRemoveChild(entryID);
+	// }
 	return(	
 		<Grid container xs={12}>
 			<Grid xs={1}>
@@ -78,10 +82,15 @@ function ChildCard(){
 			<Grid xs={11}>
 				<Card>
 					<CardContent>
-						Child Item
+						<Typography variant="h6">{entry_name}</Typography>
+						<Typography variant="p">{entry_desc}</Typography>
 					</CardContent>
 					<CardActions>
-						
+						<Button
+							>Edit Entry</Button>
+						<Button 
+							onClick={onRemoveChild}
+							>Remove Entry</Button>
 					</CardActions>
 				</Card>
 			</Grid>
@@ -157,14 +166,48 @@ function EditList(){
 		});
 	}
 
+	const removeEntry = (entry_id) => {
+		setIsLoading(true)
+		var requestData = {
+			armyList: armyList,
+			removedEntryID: entry_id
+		};
+		fetch('/removeentry', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(requestData),
+		}).then((response) => {
+			if (!response.ok) {
+				throw new Error('Http Error. Status: ${response.status}');
+			}
+			return response.json()
+		}).catch(console.error)
+		.then((data) => {
+			setArmyList(data)
+			setIsLoading(false)
+		});
+	}
+
 	const entry_name = isLoading ? <Typography>Loading</Typography>
-								 : <Typography variant="h6">{armyList.cursor.item.name}</Typography>
+								 : <Typography variant="h6">{armyList.cursor_info.item.name}</Typography>
 
 	const entry_desc = isLoading ? <Typography>Loading</Typography>
-								 : <Typography>{armyList.cursor.item.desc}</Typography>
+								 : <Typography>{armyList.cursor_info.item.desc}</Typography>
 
 	const add_child_button = isLoading ? <Typography>Loading</Typography>
-									   : <AddChildButton p_children={armyList.cursor.possible_children} onAddItem={addItem}/>
+									   : <AddChildButton p_children={armyList.cursor_info.possible_children} onAddItem={addItem}/>
+
+	const entry_children = isLoading ? <Typography>Loading</Typography>
+									 : Object.entries(armyList.cursor_info.children).map(([key, value]) =>
+													<ChildCard 
+														entry_name={value.item.name}
+														entry_desc={value.item.desc}
+														onRemoveChild={() =>
+															removeEntry(key)}
+														key={key}/>
+										)
 
 
 
@@ -185,8 +228,7 @@ function EditList(){
 									{add_child_button}
 								</CardActions>
 							</Card>
-							<ChildCard/>
-							<ChildCard/>
+							{entry_children}
 						</Grid>
 					</Grid>
 					<Grid xs={3}>

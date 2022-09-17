@@ -4,24 +4,25 @@ import sqlite3
 
 
 class Item_Info:
-    def __init__(self, name: str, desc: str, ruleset_id: int, item_id: int):
+    def __init__(self, name: str, desc: str, ruleset_id: str, item_id: str):
         self.name = name
         self.desc = desc
-        self.ruleset_id = ruleset_id
-        self.item_id = item_id
+        self.ruleset_id = str(ruleset_id)
+        self.item_id = str(item_id)
 
 
 class List_Item:
-    def __init__(self, relation_id: int, item_id: int, parent_id: int, cost: int, min: int, max: int):
+    def __init__(self, relation_id: str, item_id: str, parent_id: str, cost: int, min: int, max: int, category: str):
         self.name: str
         self.desc: str
-        self.id = item_id
-        self.ruleset_id: int
-        self.relation_id = relation_id
-        self.parent = parent_id
+        self.id: str = str(item_id)
+        self.ruleset_id: str
+        self.relation_id: str = str(relation_id)
+        self.parent: str = str(parent_id)
         self.cost = cost
-        self.min = min
-        self.max = max
+        self.min: int = min
+        self.max: int = max
+        self.category: str = category
 
     def __str__(self) -> str:
         return self.name + ": " + self.desc + "\nChild of: " + str(self.parent) + "\nCost: "
@@ -35,18 +36,19 @@ class List_Item:
 
 def get_all_list_items(conn: sqlite3.Connection) -> dict:
     conn.row_factory = sqlite3.Row
-    relations_query = "SELECT relation_id, relation_item, relation_parent, relation_cost, relation_min, relation_max FROM item_relations"
+    relations_query = "SELECT relation_id, relation_item, relation_parent, relation_cost, relation_min, relation_max, relation_category FROM item_relations"
     cursor = conn.execute(relations_query)
     relations_list = cursor.fetchall()
-    relations_dict: dict[int, List_Item] = {}
+    relations_dict: dict[str, List_Item] = {}
     for row in relations_list:
         new_relation = List_Item(relation_id=row["relation_id"], item_id=row["relation_item"],
-                                 parent_id=row["relation_parent"], cost=row["relation_cost"], min=row["relation_min"], max=row["relation_max"])
+                                 parent_id=row["relation_parent"], cost=row["relation_cost"],
+                                 min=row["relation_min"], max=row["relation_max"], category=row["relation_category"])
         relations_dict[new_relation.relation_id] = new_relation
     item_query = "SELECT item_name, item_id, item_description, item_ruleset FROM list_item"
     cursor = conn.execute(item_query)
     items_list = cursor.fetchall()
-    items_dict: dict[int, Item_Info] = {}
+    items_dict: dict[str, Item_Info] = {}
     for row in items_list:
         new_item = Item_Info(name=row["item_name"], desc=row["item_description"],
                              ruleset_id=row["item_ruleset"], item_id=row["item_id"])
@@ -58,18 +60,18 @@ def get_all_list_items(conn: sqlite3.Connection) -> dict:
     return relations_dict
 
 
-def get_list_items_for_ruleset(conn: sqlite3.Connection, ruleset_id: int) -> dict[int, List_Item]:
+def get_list_items_for_ruleset(conn: sqlite3.Connection, ruleset_id: int) -> dict[str, List_Item]:
     conn.row_factory = sqlite3.Row
     item_query = """SELECT relation_id, relation_item, relation_parent, relation_cost, relation_min, relation_max, item_name, item_id,
-        item_description, item_ruleset
+        item_description, item_ruleset, relation_category
         FROM item_relations INNER JOIN list_item ON relation_item = item_id
         WHERE item_ruleset = ?;"""
     cur = conn.execute(item_query, (ruleset_id,))
     relations_list = cur.fetchall()
-    items_dict: dict[int, List_Item] = {}
+    items_dict: dict[str, List_Item] = {}
     for row in relations_list:
         new_item = List_Item(relation_id=row["relation_id"], item_id=row["relation_item"], parent_id=row["relation_parent"],
-                             cost=row["relation_cost"], min=row["relation_min"], max=row["relation_max"])
+                             cost=row["relation_cost"], min=row["relation_min"], max=row["relation_max"], category=row["relation_category"])
         new_info = Item_Info(name=row["item_name"], desc=row["item_description"],
                              ruleset_id=row["item_ruleset"], item_id=row["item_id"])
         new_item.set_info(new_info)

@@ -31,11 +31,11 @@ class Version:
 
 
 class Ruleset:
-    def __init__(self, name: str, ruleset_id: int, version: Version, desc: str,
+    def __init__(self, name: str, ruleset_id: str, version: Version, desc: str,
                  creator: str, created: datetime.datetime, modifier: str,
                  modified: datetime.datetime, root_name: str):
         self.name = name
-        self.id = ruleset_id
+        self.id: str = str(ruleset_id)
         self.version = version
         self.description = desc
         self.creator = creator

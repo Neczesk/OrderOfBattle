@@ -49,3 +49,16 @@ def add_item_to_list():
     new_item_id = request.json['addedRelID']
     army_list.add_item_by_id(new_item_id)
     return jsonpickle.encode(army_list, make_refs=False)
+
+
+@app.route("/removeentry", methods=["POST"], strict_slashes=False)
+def remove_entry_from_list():
+    army_list_json = request.json['armyList']
+    army_list_string = json.dumps(army_list_json)
+    army_list = jsonpickle.decode(army_list_string)
+    removed_entry_id = request.json['removedEntryID']
+    status = army_list.remove_entry(removed_entry_id)
+    if status:
+        return jsonpickle.encode(army_list, make_refs=False)
+    else:
+        return 'error removing entry', 500

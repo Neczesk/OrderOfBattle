@@ -3,10 +3,17 @@ Frontend:
  ☐ Tree view implementation
  ☐ Show categories (once implemented)
  ✔ Implement adding children to cursors @started(22-09-13 23:33) @done (22-09-14 23:17) @lasted(23:44)
- ☐ Map children to children view
+ ✔ Map children to children view @started(22-09-17 00:37) @done (22-09-17 01:09) @lasted(0:32)
+ Ruleset Editor:
+ ☐ Setup home page for ruleset editing
+ ☐ Ruleset entry form
+ ☐ Item entry form
 
 Backend:
- ☐ Adjust list items to accept category info
+ ✔ Adjust list items to accept category info @done (22-09-17 01:17)
+ ✔ Convert all IDs to strings @started(22-09-16 23:30) @done (22-09-16 23:37) @lasted(0:07)
+ ✔ Single source of truth update to army list structure @started(22-09-16 23:38) @done (22-09-17 00:37) @lasted(0:59)
+ ☐ Implement insertion functions for rulesets, list items, and list relations
 
 Database:
- ☐ Add category column
+ ✔ Add category column @done (22-09-17 01:13)
