@@ -13,6 +13,8 @@ app = Flask(__name__)
 path = "army_lists.db"
 conn = dbconnection.create_connection(path)
 
+session_state = {}
+
 
 @app.route("/getrulesets")
 def get_available_rulesets():
@@ -27,7 +29,25 @@ def get_empty_armylist():
     selected_ruleset = rulesetdao.get_ruleset(conn, ruleset_id)
     ruleset_items = list_item.get_list_items_for_ruleset(conn, ruleset_id)
     new_list = army_list.ArmyList(datetime.datetime.today(), datetime.datetime.today(), name, selected_ruleset, ruleset_items)
+    session_state["armyList"] = new_list
     return jsonpickle.encode(new_list, make_refs=False)
+
+@app.route("/getarmylist", methods=["POST"], strict_slashes=False)
+def get_army_list():
+    if "armyList" in session_state:
+        return jsonpickle.encode(session_state["armyList"], make_refs=False)
+    else:
+        return 'no saved list', 500
+
+@app.route("/addroot_experimental", methods=["POST"], strict_slashes=False)
+def add_route():
+    root_id = str(request.json['root_id'])
+    if "armyList" in session_state:
+        armyList = session_state["armyList"]
+        armyList.set_root(root_id)
+        return jsonpickle.encode(armyList, make_refs=False)
+    else:
+        return 'no saved list', 500
 
 
 @app.route("/addroot", methods=["POST"], strict_slashes=False)
@@ -62,3 +82,4 @@ def remove_entry_from_list():
         return jsonpickle.encode(army_list, make_refs=False)
     else:
         return 'error removing entry', 500
+

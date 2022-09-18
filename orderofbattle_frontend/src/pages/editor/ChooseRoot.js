@@ -30,7 +30,7 @@ function ChooseRoot(){
 			"listdata": armyList,
 			"root_id": selRoot
 		};
-		fetch('/addroot', {
+		fetch('/addroot_experimental', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
