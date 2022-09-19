@@ -10,12 +10,13 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Divider from '@mui/material/Divider';
+import {useNavigate} from 'react-router-dom';
 
 function RulesetCards(){
   const [rulesets, setRulesets] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [errorA, setErrorA] = useState(null)
-
+  const navigate = useNavigate();
   async function getRulesets() {
       try {
           setIsLoading(true);
@@ -30,6 +31,8 @@ function RulesetCards(){
           setIsLoading(false)
       }
   }
+
+  const handleClick = (event, key)
 
   useEffect(() => {
     getRulesets();
@@ -49,7 +52,7 @@ function RulesetCards(){
       ruleset_list.push(JSON.parse(element)))
     return ( 
       ruleset_list.map((ruleset) =>
-        <Card key={ruleset.name}>
+        <Card key={ruleset.id}>
           <CardContent>
             <Typography variant="h5">
               {ruleset.name}
@@ -64,6 +67,7 @@ function RulesetCards(){
           </CardContent>
           <CardActions>
             <Button>View Ruleset</Button>
+            <Button>Edit Ruleset</Button>
           </CardActions>
         </Card>)
     )

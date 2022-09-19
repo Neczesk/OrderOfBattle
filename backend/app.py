@@ -23,6 +23,12 @@ def get_available_rulesets():
     return [r.toJson() for r in rulesets_list]
 
 
+@app.route("/getruleset", methods=["POST"], strict_slashes=False)
+def get_ruleset():
+    ruleset_id = request.json['rulesetID']
+    return rulesetdao.get_ruleset(conn, int(ruleset_id))
+
+
 @app.route("/getemptyarmylist", methods=["POST"], strict_slashes=False)
 def get_empty_armylist():
     ruleset_id = request.json['ruleset']
