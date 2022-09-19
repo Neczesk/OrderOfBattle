@@ -82,7 +82,7 @@ class EmptyListEntry(ListEntry):
 
 
 class ArmyList:
-    def __init__(self, created: datetime.datetime, modified: datetime.datetime, name: str, rules: Ruleset, items: dict[str, ListItem]):
+    def __init__(self, created: datetime.datetime, modified: datetime.datetime, name: str, rules: Ruleset, items: dict[str, ListItem], ID: int = -1):
         self.created = created
         self.modified = modified
         self.name = name
@@ -93,6 +93,7 @@ class ArmyList:
         self.id_counter: int = 1
         self.possible_roots: dict[str, ListItem] = {}
         self.cursor_info: ListEntry = EmptyListEntry()
+        self.ID: int = ID
         # breakpoint()
         for key in self.items:
             if self.items[key].parent == "None":

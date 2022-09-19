@@ -1,6 +1,7 @@
 import sqlite3
 from sqlite3 import Error
 
+
 def create_connection(path):
 
     connection = None
@@ -14,6 +15,5 @@ def create_connection(path):
     except Error as e:
 
         print(f"The error '{e}' occurred")
-
 
     return connection

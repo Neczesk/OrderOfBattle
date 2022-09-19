@@ -5,6 +5,7 @@ from db import dbconnection
 from listdata.ruleset import rulesetdao
 from listdata.ruleset import ruleset as rules
 from listdata.ruleset import list_item
+from listdata import list_db
 
 
 class TestDatabaseMethods(unittest.TestCase):

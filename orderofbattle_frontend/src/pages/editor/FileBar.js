@@ -10,7 +10,10 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 
 
 function FileBar(props){
-	const {isLoading, ruleset_name, list_name} = props
+	const {isLoading, ruleset_name, list_name, onSave} = props
+	const saveList = () => {
+		fetch("/savelist")
+	}
 	return (
 		<Card sx={{width:1}} elevation={2}>
 			<CardContent>
@@ -28,7 +31,7 @@ function FileBar(props){
 			<CardActions>
 				<Stack direction="row" spacing={1}>
 					<ButtonGroup variant="outlined">
-						<Button>Save List</Button>
+						<Button onClick={saveList}>Save List</Button>
 						<Button>Rename List</Button>
 						<Button>Share List</Button>
 						<Button>Export List</Button>
