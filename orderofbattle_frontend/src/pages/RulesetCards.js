@@ -32,7 +32,9 @@ function RulesetCards(){
       }
   }
 
-  const handleClick = (event, key)
+  const handleClick = (event, key) => {
+    console.log("edit ruleset clicked")
+  };
 
   useEffect(() => {
     getRulesets();
