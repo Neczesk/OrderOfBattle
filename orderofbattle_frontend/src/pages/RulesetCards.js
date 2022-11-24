@@ -1,9 +1,7 @@
 import React, {useState, useEffect} from 'react';
 
 
-import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Toolbar from '@mui/material/Toolbar'
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardContent';
 import CardContent from '@mui/material/CardContent';
@@ -52,6 +50,7 @@ function RulesetCards(){
     var ruleset_list = []
     rulesets.forEach(element =>
       ruleset_list.push(JSON.parse(element)))
+    console.log(ruleset_list[0])
     return ( 
       ruleset_list.map((ruleset) =>
         <Card key={ruleset.id}>
