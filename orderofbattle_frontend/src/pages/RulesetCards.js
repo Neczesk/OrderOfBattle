@@ -30,7 +30,7 @@ function RulesetCards(){
       }
   }
 
-  const handleClick = (event, key) => {
+  const handleClick = (key) => {
     console.log("edit ruleset clicked")
   };
 
@@ -50,7 +50,6 @@ function RulesetCards(){
     var ruleset_list = []
     rulesets.forEach(element =>
       ruleset_list.push(JSON.parse(element)))
-    console.log(ruleset_list[0])
     return ( 
       ruleset_list.map((ruleset) =>
         <Card key={ruleset.id}>
@@ -68,7 +67,7 @@ function RulesetCards(){
           </CardContent>
           <CardActions>
             <Button>View Ruleset</Button>
-            <Button>Edit Ruleset</Button>
+            <Button onClick={() => handleClick(ruleset.id)}>Edit Ruleset</Button>
           </CardActions>
         </Card>)
     )
