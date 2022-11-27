@@ -29,6 +29,7 @@ import NewArmyList from "./pages/NewArmyList";
 import NewListDropdown from "./pages/NewListDropdown";
 import ChooseRoot from "./pages/editor/ChooseRoot";
 import EditList from "./pages/editor/EditList";
+import AddRuleset from "./pages/AddRuleset";
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -83,7 +84,7 @@ function App() {
               Rulesets
             </Typography>
             <List>
-              <ListItemButton>
+              <ListItemButton href="/addruleset">
                 <ListItemText primary="Create New Ruleset"/>
                 <ListItemIcon>
                   <AddIcon/>
@@ -105,6 +106,7 @@ function App() {
           <Route path="/newlistdropdown" element={<NewListDropdown/>}/>
           <Route path="/editor/chooseroot" element={<ChooseRoot/>}/>
           <Route path="/editor/editlist" element={<EditList/>}/>
+          <Route path="/addruleset" element={<AddRuleset/>}/>
         </Routes>
       </Box>
     </Router>

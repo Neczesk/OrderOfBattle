@@ -1,0 +1,25 @@
+Version 0:
+  List Editing:
+    ☐ Implement Tree side view
+    ☐ Navigate between elements
+  List Loading:
+    Frontend:
+      ☐ Display saved lists
+      ☐ Load list into editing page
+    Backend:
+      ☐ Retrieve List from database
+      ☐ Retrieve lists of lists from database
+      ☐ Respond to frontend query for a saved list according to id
+  Ruleset Editing:
+    Frontend:
+      ☐ Create page to edit rulesets
+        ☐ Load data from ruleset to pre-populate
+      ✔ Create new ruleset page @started(22-11-23 21:17) @done(22-11-23 23:05) @lasted(1h48m4s)
+      Element Editing:
+        ☐ Create page to edit and add new elements
+    Backend:
+      ☐ Create insertion function for new rulesets
+      ☐ Create insertion function for new elements and relations
+    Pandas Update:
+      ☐ RulesetDao to pandas
+      ☐ Listdata to pandas
